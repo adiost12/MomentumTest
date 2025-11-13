@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import MomentumText from "../../../components/shared/MomentumText";
 import { PROMO_CODE_APPLIED } from "../../../constants/strings";
 import { BACKGROUND_COLOR } from "../../../constants/colors";
-import { usePromoCard } from "../hooks/usePrormoCard";
+import { usePromoCard } from "../hooks/usePromoCard";
 import CheckMark from '../../../../assets/checkMark.svg';
 import GreenCoupon from '../../../../assets/greenCoupon.svg';
 

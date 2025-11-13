@@ -4,6 +4,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { generateCouponCode } from "../../../utills";
 import { Discount, Plan } from "../../../types";
+import { useDiscountStore } from "../../../store/discountStore";
 
 const discount: Discount = {
     discountFunction: (price: number) => price * 0.5,
@@ -14,6 +15,7 @@ export const useChoosePlan = () => {
     const [couponCode, setCouponCode] = useState<string | null>(null);
     const [isDiscountAvailable, setIsDiscountAvailable] = useState(true);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const { setDiscount, clearDiscount } = useDiscountStore();
 
     useEffect(() => {
         const fetchNameAndGenerateCoupon = async () => {
@@ -41,8 +43,13 @@ export const useChoosePlan = () => {
     }, []);
 
     const handleGetPlanPress = useCallback(() => {
-        navigation.navigate('Checkout', {plan: selectedPlan, couponCode: isDiscountAvailable ? couponCode || undefined : undefined, discount: isDiscountAvailable ? discount : undefined});
-    }, [navigation, selectedPlan, isDiscountAvailable, couponCode]);
+        if (isDiscountAvailable) {
+            setDiscount(discount);
+        } else {
+            clearDiscount();
+        }
+        navigation.navigate('Checkout', {plan: selectedPlan, couponCode: isDiscountAvailable ? couponCode || undefined : undefined});
+    }, [navigation, selectedPlan, isDiscountAvailable, couponCode, setDiscount]);
 
     return {
         couponCode,

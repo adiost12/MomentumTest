@@ -8,16 +8,13 @@ import { RootStackParamList } from "../../../App";
 import useNameForm from "./hooks/useNameForm";
 import MomentumText from "../../components/shared/MomentumText";
 import RightArrow from '../../../assets/icon_right.svg';
+import { setNavigationOptions } from "../../utils/navigationUtils";
 
 export default function NameFormScreen() {
     const { name, setName, handleContinuePress, isValidName } = useNameForm();
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     useLayoutEffect(() => {
-        navigation.setOptions({
-            headerTitle: () => <Image source={require('../../../assets/momentumLogo.png')} />, 
-            headerLeft: () => <TouchableOpacity onPress={() => {
-                navigation.goBack();
-        }}><Image source={require('../../../assets/backIcon.png')}/></TouchableOpacity>});
+        setNavigationOptions({ navigation, showBackButton: true });
     }, [navigation]);
 
     return (

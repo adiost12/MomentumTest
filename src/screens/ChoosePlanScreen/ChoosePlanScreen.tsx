@@ -10,18 +10,14 @@ import PromoCard from "./components/PromoCard";
 import { useChoosePlan } from "./hooks/useChoosePlan";
 import { Plan } from "../../types";
 import { BUTTON_TEXT_COLOR } from "../../constants/colors";
+import { setNavigationOptions } from "../../utils/navigationUtils";
 
 export default function ChoosePlanScreen() {
     const { plans, couponCode, isDiscountAvailable, handleTimerEnd, handleGetPlanPress, discount } = useChoosePlan();
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-      useLayoutEffect(() => {
-        navigation.setOptions({
-            headerBackground: () => <View style={{flex: 1, backgroundColor: '#EFF1F5', borderBottomColor: '#D9D9D9', borderBottomWidth: 1}} />,
-          headerTitle: () => <Image source={require('../../../assets/momentumLogo.png')} />, 
-          headerLeft: () => <TouchableOpacity onPress={() => {
-              navigation.goBack();
-      }}><Image source={require('../../../assets/backIcon.png')}/></TouchableOpacity>});
-      }, [navigation]);
+    useLayoutEffect(() => {
+        setNavigationOptions({ navigation, showBackButton: true });
+    }, [navigation]);
 
     // This is added in case we'll have plan selection feature
 

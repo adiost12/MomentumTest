@@ -1,13 +1,17 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import { RootStackParamList } from '../../../../App';
+import { useDiscountStore } from '../../../store/discountStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type CheckoutScreenRouteProp = RouteProp<RootStackParamList, 'Checkout'>;
 
 export const useCheckoutScreen = () => {
+        const navigation = useNavigation<NavigationProp<RootStackParamList>>();
         const route = useRoute<CheckoutScreenRouteProp>();
-        const { plan, couponCode, discount } = route.params || {};
+        const { plan, couponCode } = route.params || {};
+        const discount = useDiscountStore((state) => state.discount);
     
         const [cardholderName, setCardholderName] = useState('');
         const [expiryDate, setExpiryDate] = useState('');
@@ -19,9 +23,11 @@ export const useCheckoutScreen = () => {
         const savings = originalPrice - discountedPrice;
     
         const handleBuyNow = useCallback(() => {
-            // Handle payment processing
-            console.log('Processing payment...');
-        }, []);
+            AsyncStorage.setItem('hasPurchased', 'true');
+            
+            navigation.navigate('ThankYou');
+        }, [navigation]);
+
         return {
             plan,
             couponCode,

@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { TextInput, View, StyleSheet, Image } from "react-native";
 import MomentumText from "../../components/shared/MomentumText";
 import MomentumButton from "../../components/shared/MomentumButton";
 import { BACKGROUND_COLOR, BUTTON_TEXT_COLOR, TEXT_INPUT_PLACEHOLDER_COLOR } from "../../constants/colors";
 import LockIcon from '../../../assets/lockIcon.svg';
-import { CARDHOLDER_NAME_INPUT_PLACEHOLDER, CVV_INPUT_PLACEHOLDER, EXPIRY_DATE_INPUT_PLACEHOLDER, PAY_NOW_BUTTON_TEXT } from "../../constants/strings";
+import { APPLIED_PROMO_CODE_MESSAGE, CARDHOLDER_NAME_INPUT_PLACEHOLDER, CVV_INPUT_PLACEHOLDER, EXPIRY_DATE_INPUT_PLACEHOLDER, PAY_NOW_BUTTON_TEXT, TOTAL_TO_PAY_TEXT } from "../../constants/strings";
 import GreyCoupon from '../../../assets/greyCoupon.svg';
 import { useCheckoutScreen } from "./hooks/useCheckoutScreen";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../App";
+import { setNavigationOptions } from "../../utils/navigationUtils";
 
 const SAVINGS_COLOR = '#EE5255';
 
 
 export default function CheckoutScreen() {
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const {plan, couponCode, discount, cardholderName, setCardholderName, expiryDate, setExpiryDate, cvv, setCvv, cardNumber, setCardNumber, discountedPrice, savings, handleBuyNow, originalPrice} = useCheckoutScreen();
 
+    useLayoutEffect(() => {
+        setNavigationOptions({ navigation, showBackButton: true });
+    }, [navigation]);
 
     return (
         <View style={styles.container} >
@@ -35,14 +42,14 @@ export default function CheckoutScreen() {
                 {couponCode && (
                     <View style={styles.couponRow}>
                         <GreyCoupon width={16} height={16} style={styles.couponIcon} />
-                        <MomentumText style={styles.couponText}>Applied promo code: {couponCode}</MomentumText>
+                        <MomentumText style={styles.couponText}>{APPLIED_PROMO_CODE_MESSAGE} {couponCode}</MomentumText>
                     </View>
                 )}
 
                 <View style={styles.divider} />
 
                 <View style={styles.totalRow}>
-                    <MomentumText style={styles.totalLabel}>Total today:</MomentumText>
+                    <MomentumText style={styles.totalLabel}>{TOTAL_TO_PAY_TEXT}</MomentumText>
                     <MomentumText style={styles.totalPrice}>${discountedPrice.toFixed(2)}</MomentumText>
                 </View>
                 {discount && (
@@ -148,7 +155,6 @@ const styles = StyleSheet.create({
     },
     discountLabel: {
         fontSize: 14,
-        color: '#666',
     },
     discountPrice: {
         fontSize: 14,

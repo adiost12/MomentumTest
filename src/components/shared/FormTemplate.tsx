@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 import { View, TextInput, StyleSheet } from "react-native";
 import MomentumText from "./MomentumText";
-import { EMAIL_FORM_PLACEHOLDER, EMAIL_FORM_TITLE, EMAIL_FORM_ERROR } from "../../constants/strings";
 
 export type FormTemplateProps = {
     title: string;

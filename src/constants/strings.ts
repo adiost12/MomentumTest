@@ -12,3 +12,7 @@ export const CARDHOLDER_NAME_INPUT_PLACEHOLDER = "Name on Card";
 export const EXPIRY_DATE_INPUT_PLACEHOLDER = "MM/YY";
 export const CVV_INPUT_PLACEHOLDER = "CVV";
 export const PAY_NOW_BUTTON_TEXT = "Buy Now";
+export const THANK_YOU_MESSAGE = "Thank you!";
+export const APPLIED_PROMO_CODE_MESSAGE = "Applied promo code:";
+export const TOTAL_TO_PAY_TEXT = "Total today:";
+export const MOST_POPULAR = "MOST POPULAR";

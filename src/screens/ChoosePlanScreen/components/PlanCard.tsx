@@ -3,6 +3,8 @@ import { View, StyleSheet } from "react-native";
 
 import MomentumText from "../../../components/shared/MomentumText";
 import { Discount, Plan } from "../../../types";
+import { TEXT_INPUT_PLACEHOLDER_COLOR } from "../../../constants/colors";
+import { MOST_POPULAR } from "../../../constants/strings";
 
 export type PlanCardProps = {
     plan: Plan;
@@ -21,8 +23,12 @@ export default function PlanCard({ plan, discount }: PlanCardProps) {
                             <MomentumText style={styles.planName}>{plan.name}</MomentumText>
                             {plan.price && (
                                 <View style={styles.priceRow}>
-                                    <MomentumText style={styles.originalPrice}>${plan.price.toFixed(2)} USD</MomentumText>
-                                    <MomentumText style={styles.discountedPrice}>${discountedPrice.toFixed(2)} USD</MomentumText>
+                                    {
+                                        discount && (
+                                            <MomentumText style={styles.originalPrice}>{plan.price.toFixed(2)} USD</MomentumText>
+                                        )
+                                    }
+                                    <MomentumText style={styles.discountedPrice}>{discountedPrice.toFixed(2)} USD</MomentumText>
                                 </View>
                             )}
                         </View>
@@ -39,7 +45,7 @@ export default function PlanCard({ plan, discount }: PlanCardProps) {
             </View>
             {plan.isMostPopular && (
                 <View style={styles.badge}>
-                    <MomentumText style={styles.badgeText}>MOST POPULAR</MomentumText>
+                <MomentumText style={styles.badgeText}>{MOST_POPULAR}</MomentumText>
                 </View>
             )}           
         </View>
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     },
     discountedPrice: {
         fontSize: 12,
-        color: '#06A77D',
+        color: TEXT_INPUT_PLACEHOLDER_COLOR,
         fontWeight: '500',
     },
     rightContent: {

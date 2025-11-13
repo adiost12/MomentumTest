@@ -1,5 +1,5 @@
-import React, { useCallback, useLayoutEffect, useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import MomentumButton from '../../components/shared/MomentumButton';
 import FormTemplate from '../../components/shared/FormTemplate';
 import { EMAIL_FORM_ERROR, EMAIL_FORM_PLACEHOLDER, EMAIL_FORM_TITLE } from '../../constants/strings';
@@ -8,13 +8,12 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useMailForm } from './hooks/useMailForm';
 import MomentumText from '../../components/shared/MomentumText';
 import RightArrow from '../../../assets/icon_right.svg';
+import { setNavigationOptions } from '../../utils/navigationUtils';
 
 export default function MailFormScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => <Image source={require('../../../assets/momentumLogo.png')} />, 
-    });   
+    setNavigationOptions({ navigation, showBackButton: false });
   }, [navigation]);
   const { email, setEmail, handleContinuePress, isValidEmail } = useMailForm();
 
