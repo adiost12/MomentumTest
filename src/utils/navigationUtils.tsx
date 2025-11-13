@@ -1,20 +1,26 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
+import { BACKGROUND_COLOR } from '../constants/colors';
 
 interface SetNavigationOptionsProps {
   navigation: NavigationProp<RootStackParamList>;
   showBackButton?: boolean;
   title?: string | React.ReactNode;
+  gestureEnabled?: boolean;
 }
 
 export const setNavigationOptions = ({
   navigation,
   showBackButton = true,
   title,
+  gestureEnabled = true,
 }: SetNavigationOptionsProps) => {
   navigation.setOptions({
+    gestureEnabled,
+    headerBackVisible: false,
+    headerShown: true,
     headerTitle: () =>
       title || (
         <Image
@@ -34,5 +40,6 @@ export const setNavigationOptions = ({
           />
         </TouchableOpacity>
       ) : null,
+    headerBackground: () => <View style={{flex: 1, backgroundColor: BACKGROUND_COLOR, borderBottomColor: '#D9D9D9', borderBottomWidth: 1}}/>
   });
 };
