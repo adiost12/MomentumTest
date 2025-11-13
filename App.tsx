@@ -1,20 +1,36 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import  MailFormScreen from './src/screens/MailFormScreen/MailFormScreen';
+import ChoosePlanScreen from './src/screens/ChoosePlanScreen/ChoosePlanScreen';
+import NameFormScreen from './src/screens/NameFormScreen/NameFormScreen';
+import CheckoutScreen from './src/screens/CheckoutScreen/CheckoutScreen';
+import { Plan } from './src/types';
+
+export type RootStackParamList = {
+  MailForm: {navigation: any};
+  NameForm: undefined;
+  ChoosePlan: undefined;
+  Checkout: {plan: Plan, couponCode?: string};
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="MailForm" component={MailFormScreen} />
+        <Stack.Screen name="NameForm" component={NameFormScreen} />
+        <Stack.Screen name="ChoosePlan" component={ChoosePlanScreen} />
+        <Stack.Screen name="Checkout" component={CheckoutScreen} />
+      </Stack.Navigator>
       <StatusBar style="auto" />
-    </View>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});

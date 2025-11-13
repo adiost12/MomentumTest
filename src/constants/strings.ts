@@ -1,0 +1,9 @@
+export const EMAIL_FORM_TITLE = "Enter your email to get your personalized Calisthenics Workout Plan";
+export const EMAIL_FORM_PLACEHOLDER = "name@domain.com";
+export const EMAIL_FORM_ERROR = "Please enter a valid email address";
+export const NAME_FORM_TITLE = "What's your name?";
+export const NAME_FORM_PLACEHOLDER = "Name";
+export const CONTINUE_BUTTON_TEXT = "Continue";
+export const WORKOUT_PLAN_TITLE = "Choose the best plan for you";
+export const PROMO_CODE_APPLIED = "Your Promo Code is Applied!";
+export const GET_PLAN_BUTTON_TEXT = "Get My Plan";
