@@ -16,3 +16,4 @@ export const THANK_YOU_MESSAGE = "Thank you!";
 export const APPLIED_PROMO_CODE_MESSAGE = "Applied promo code:";
 export const TOTAL_TO_PAY_TEXT = "Total today:";
 export const MOST_POPULAR = "MOST POPULAR";
+export const CHECKOUT_SCREEN_HEADER = "Complete Checkout";

@@ -4,7 +4,7 @@ import MomentumText from "../../components/shared/MomentumText";
 import MomentumButton from "../../components/shared/MomentumButton";
 import { BACKGROUND_COLOR, BUTTON_TEXT_COLOR, TEXT_INPUT_PLACEHOLDER_COLOR } from "../../constants/colors";
 import LockIcon from '../../../assets/lockIcon.svg';
-import { APPLIED_PROMO_CODE_MESSAGE, CARDHOLDER_NAME_INPUT_PLACEHOLDER, CVV_INPUT_PLACEHOLDER, EXPIRY_DATE_INPUT_PLACEHOLDER, PAY_NOW_BUTTON_TEXT, TOTAL_TO_PAY_TEXT } from "../../constants/strings";
+import { APPLIED_PROMO_CODE_MESSAGE, CARDHOLDER_NAME_INPUT_PLACEHOLDER, CVV_INPUT_PLACEHOLDER, EXPIRY_DATE_INPUT_PLACEHOLDER, PAY_NOW_BUTTON_TEXT, TOTAL_TO_PAY_TEXT, CHECKOUT_SCREEN_HEADER } from "../../constants/strings";
 import GreyCoupon from '../../../assets/greyCoupon.svg';
 import { useCheckoutScreen } from "./hooks/useCheckoutScreen";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -19,7 +19,7 @@ export default function CheckoutScreen() {
     const {plan, couponCode, discount, cardholderName, setCardholderName, expiryDate, setExpiryDate, cvv, setCvv, cardNumber, setCardNumber, discountedPrice, savings, handleBuyNow, originalPrice} = useCheckoutScreen();
 
     useLayoutEffect(() => {
-        setNavigationOptions({ navigation, showBackButton: true });
+        setNavigationOptions({ navigation, showBackButton: true, title: <MomentumText style={styles.header}>{CHECKOUT_SCREEN_HEADER}</MomentumText> });
     }, [navigation]);
 
     return (
@@ -285,5 +285,9 @@ const styles = StyleSheet.create({
         color: BUTTON_TEXT_COLOR,
         fontSize: 18,
         textAlign: 'center',
+    },
+    header: {
+        fontSize: 22,
+        fontWeight: '700',
     }
 });

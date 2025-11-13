@@ -24,6 +24,7 @@ export const setNavigationOptions = ({
     headerLeft: () =>
       showBackButton ? (
         <TouchableOpacity
+          style={{ width: 40 }}
           onPress={() => {
             navigation.goBack();
           }}

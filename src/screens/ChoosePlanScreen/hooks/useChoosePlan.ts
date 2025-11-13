@@ -22,7 +22,6 @@ export const useChoosePlan = () => {
         const fetchNameAndGenerateCoupon = async () => {
         try {
             const name = await AsyncStorage.getItem('name');
-            console.log('Retrieved name from AsyncStorage:', name);
             if (!name) return null;
             setCouponCode(generateCouponCode(name || ''));
         } catch (error) {
