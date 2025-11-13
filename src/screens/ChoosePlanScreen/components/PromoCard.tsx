@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import MomentumText from "../../../components/shared/MomentumText";
 import { PROMO_CODE_APPLIED } from "../../../constants/strings";
 import { BACKGROUND_COLOR } from "../../../constants/colors";
+import { usePromoCard } from "../hooks/usePrormoCard";
+import CheckMark from '../../../../assets/checkMark.svg';
+import GreenCoupon from '../../../../assets/greenCoupon.svg';
 
 export type PromoCardProps = {
     couponCode: string | null;
@@ -10,37 +13,21 @@ export type PromoCardProps = {
 }
 
 export default function PromoCard({ couponCode, onTimerEnd }: PromoCardProps) {
-    const [timeLeft, setTimeLeft] = React.useState<number>(300);
-    
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, []);
-
-    useEffect(() => {
-        if (timeLeft === 0) {
-            onTimerEnd();
-        }
-    }, [timeLeft]);
-
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-
+    const { minutes, seconds } = usePromoCard(onTimerEnd);
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
+                <GreenCoupon width={24} height={24} />
                 <MomentumText style={styles.title}>{PROMO_CODE_APPLIED}</MomentumText>
             </View>
-            <View style={{flex: 1, position: 'relative', flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={styles.deviderContainer}>
                 <View style={styles.halfCircleLeft} />
                 <View style={styles.dottedDivider} />
                 <View style={styles.halfCircleRight} />
             </View>
             <View style={styles.couponContainer}>
                 <View style={styles.couponCodeContainer}>
+                    <CheckMark width={16} height={16} />
                     <MomentumText style={styles.couponCode}>{couponCode}</MomentumText>
                 </View>
                 <View style={styles.timerContainer}>
@@ -68,6 +55,8 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         marginBottom: 12,
+        flexDirection: 'row',
+        gap: 8,
     },
     title: {
         fontSize: 18,
@@ -135,10 +124,19 @@ const styles = StyleSheet.create({
     couponCodeContainer: {
         flex: 1,
         backgroundColor: 'white',
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingVertical: 8,
         paddingHorizontal: 12,
         borderRadius: 8,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         height: 50,
+        gap: 8,
+    },
+    deviderContainer: {
+        flex: 1,
+        position: 'relative',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
 });

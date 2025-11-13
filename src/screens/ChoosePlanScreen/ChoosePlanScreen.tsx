@@ -1,5 +1,5 @@
 import React, {useCallback, useLayoutEffect } from "react";
-import { StyleSheet, View, Image, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import MomentumText from "../../components/shared/MomentumText";
 import { GET_PLAN_BUTTON_TEXT, WORKOUT_PLAN_TITLE } from "../../constants/strings";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -8,15 +8,11 @@ import MomentumButton from "../../components/shared/MomentumButton";
 import PlanCard from "./components/PlanCard";
 import PromoCard from "./components/PromoCard";
 import { useChoosePlan } from "./hooks/useChoosePlan";
-import { Discount, Plan } from "../../types";
-
-const discount: Discount = {
-    discountFunction: (price: number) => price * 0.5,
-    name: "50% Intro Discount",
-}
+import { Plan } from "../../types";
+import { BUTTON_TEXT_COLOR } from "../../constants/colors";
 
 export default function ChoosePlanScreen() {
-    const { plans, couponCode, isDiscountAvailable, handleTimerEnd, handleGetPlanPress } = useChoosePlan();
+    const { plans, couponCode, isDiscountAvailable, handleTimerEnd, handleGetPlanPress, discount } = useChoosePlan();
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
       useLayoutEffect(() => {
         navigation.setOptions({
@@ -27,19 +23,21 @@ export default function ChoosePlanScreen() {
       }}><Image source={require('../../../assets/backIcon.png')}/></TouchableOpacity>});
       }, [navigation]);
 
+    // This is added in case we'll have plan selection feature
+
     const renderPlanItem = useCallback(({item}: {item: Plan}) => (
         <PlanCard plan={item} discount={isDiscountAvailable ? discount : undefined} />
     ), [isDiscountAvailable]);
-
 
         
     return (
         <View style={styles.container}>
             <MomentumText style={styles.title}>{WORKOUT_PLAN_TITLE}</MomentumText>
             {isDiscountAvailable && <PromoCard couponCode={couponCode} onTimerEnd={handleTimerEnd} />}
-            <FlatList data={plans} renderItem={renderPlanItem} keyExtractor={(item) => item.name} />
+            <PlanCard plan={plans[0]} discount={isDiscountAvailable ? discount : undefined} />
+            {/* <FlatList data={plans} renderItem={renderPlanItem} keyExtractor={(item) => item.name} /> */}
             <MomentumButton onPress={handleGetPlanPress}>
-                <MomentumText style={{color: '#fff', fontSize: 18, textAlign: 'center'}}>{GET_PLAN_BUTTON_TEXT}</MomentumText>
+                <MomentumText style={styles.buttonText}>{GET_PLAN_BUTTON_TEXT}</MomentumText>
             </MomentumButton>
         </View>
     )
@@ -57,5 +55,10 @@ const styles = StyleSheet.create({
         fontSize: 26,
         paddingBottom: 20,
         textAlign: 'center',
+    },
+    buttonText: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: BUTTON_TEXT_COLOR,
     },
 });

@@ -7,6 +7,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../App";
 import useNameForm from "./hooks/useNameForm";
 import MomentumText from "../../components/shared/MomentumText";
+import RightArrow from '../../../assets/icon_right.svg';
 
 export default function NameFormScreen() {
     const { name, setName, handleContinuePress, isValidName } = useNameForm();
@@ -24,6 +25,7 @@ export default function NameFormScreen() {
             <FormTemplate title={NAME_FORM_TITLE} placeholder={NAME_FORM_PLACEHOLDER} value={name} onChangeText={(input) => setName(input)} autoCorrect={false} />
           <MomentumButton disabled={!isValidName} onPress={handleContinuePress}>
             <MomentumText style={styles.continueText}>Continue</MomentumText>
+            <RightArrow width={24} height={24} />
           </MomentumButton>
         </View>
     )

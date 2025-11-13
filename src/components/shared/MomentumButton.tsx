@@ -1,12 +1,13 @@
 import React from "react";  
 import {TouchableOpacity, StyleSheet, View} from "react-native";
 
-export default function MomentumButton({ onPress, disabled, children }: { onPress: () => void; disabled?: boolean; children: React.ReactNode }) {
+export default function MomentumButton({ onPress, disabled, children, color }: { onPress: () => void; disabled?: boolean; children: React.ReactNode; color?: string }) {
     return (
-        <View style={[styles.buttonContainer, disabled ? { opacity: 0.5 } : { opacity: 1 }]}>
+        <View style={[styles.buttonContainer, disabled ? { opacity: 0.5 } : { opacity: 1 }, color ? { backgroundColor: color } : {}]}>
         <TouchableOpacity
             onPress={onPress}
-            disabled={disabled}>
+            disabled={disabled}
+            style={styles.children}>
             {children}
         </TouchableOpacity>
         </View>
@@ -24,4 +25,9 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         alignSelf: 'center',
     },
+    children: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+    }
 });

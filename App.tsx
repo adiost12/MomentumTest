@@ -8,13 +8,13 @@ import  MailFormScreen from './src/screens/MailFormScreen/MailFormScreen';
 import ChoosePlanScreen from './src/screens/ChoosePlanScreen/ChoosePlanScreen';
 import NameFormScreen from './src/screens/NameFormScreen/NameFormScreen';
 import CheckoutScreen from './src/screens/CheckoutScreen/CheckoutScreen';
-import { Plan } from './src/types';
+import { Discount, Plan } from './src/types';
 
 export type RootStackParamList = {
-  MailForm: {navigation: any};
+  MailForm: undefined;
   NameForm: undefined;
   ChoosePlan: undefined;
-  Checkout: {plan: Plan, couponCode?: string};
+  Checkout: {plan: Plan, couponCode?: string, discount?: Discount};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

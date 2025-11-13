@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     planName: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#000',
         marginBottom: 4,
     },
     priceRow: {
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 24,
         fontWeight: '700',
-        color: '#000',
     },
     perDay: {
         fontSize: 10,

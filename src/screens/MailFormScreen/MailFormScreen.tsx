@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../../App';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useMailForm } from './hooks/useMailForm';
 import MomentumText from '../../components/shared/MomentumText';
+import RightArrow from '../../../assets/icon_right.svg';
 
 export default function MailFormScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -29,6 +30,7 @@ export default function MailFormScreen() {
       />
       <MomentumButton disabled={!isValidEmail} onPress={handleContinuePress}>
         <MomentumText style={styles.continueText}>Continue</MomentumText>
+        <RightArrow width={24} height={24} />
       </MomentumButton>
     </View>
   );
@@ -46,5 +48,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     textAlign: 'center',
+  },
+  continueButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

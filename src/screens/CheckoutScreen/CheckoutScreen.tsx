@@ -1,50 +1,40 @@
-import React, { useState } from "react";
-import { TextInput, View, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
+import React from "react";
+import { TextInput, View, StyleSheet, Image } from "react-native";
 import MomentumText from "../../components/shared/MomentumText";
 import MomentumButton from "../../components/shared/MomentumButton";
-import { NavigationProp, useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../../App";
+import { BACKGROUND_COLOR, BUTTON_TEXT_COLOR, TEXT_INPUT_PLACEHOLDER_COLOR } from "../../constants/colors";
+import LockIcon from '../../../assets/lockIcon.svg';
+import { CARDHOLDER_NAME_INPUT_PLACEHOLDER, CVV_INPUT_PLACEHOLDER, EXPIRY_DATE_INPUT_PLACEHOLDER, PAY_NOW_BUTTON_TEXT } from "../../constants/strings";
+import GreyCoupon from '../../../assets/greyCoupon.svg';
+import { useCheckoutScreen } from "./hooks/useCheckoutScreen";
 
-type CheckoutScreenRouteProp = RouteProp<RootStackParamList, 'Checkout'>;
+const SAVINGS_COLOR = '#EE5255';
+
 
 export default function CheckoutScreen() {
-    const route = useRoute<CheckoutScreenRouteProp>();
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { plan, couponCode } = route.params || {};
+    const {plan, couponCode, discount, cardholderName, setCardholderName, expiryDate, setExpiryDate, cvv, setCvv, cardNumber, setCardNumber, discountedPrice, savings, handleBuyNow, originalPrice} = useCheckoutScreen();
 
-    const [cardholderName, setCardholderName] = useState('');
-    const [expiryDate, setExpiryDate] = useState('');
-    const [cvv, setCvv] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-
-    const discountedPrice = plan?.price || 0;
-    const originalPrice = plan?.originalPrice || 0;
-    const savings = originalPrice - discountedPrice;
-
-    const handleBuyNow = () => {
-        // Handle payment processing
-        console.log('Processing payment...');
-    };
 
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            {/* Plan Summary */}
+        <View style={styles.container} >
             <View style={styles.summaryCard}>
                 <View style={styles.summaryHeader}>
                     <MomentumText style={styles.planNameSummary}>{plan?.name}</MomentumText>
                     <MomentumText style={styles.priceSummary}>${originalPrice.toFixed(2)}</MomentumText>
                 </View>
-
+                {
+                discount && (
                 <View style={styles.discountRow}>
                     <MomentumText style={styles.discountLabel}>Your 50% intro discount</MomentumText>
                     <MomentumText style={styles.discountPrice}>-${discountedPrice.toFixed(2)}</MomentumText>
                 </View>
+                )
+                }
+                
 
                 {couponCode && (
                     <View style={styles.couponRow}>
-                        <View style={styles.couponIcon}>
-                            <MomentumText style={styles.couponIconText}>🏷️</MomentumText>
-                        </View>
+                        <GreyCoupon width={16} height={16} style={styles.couponIcon} />
                         <MomentumText style={styles.couponText}>Applied promo code: {couponCode}</MomentumText>
                     </View>
                 )}
@@ -55,26 +45,21 @@ export default function CheckoutScreen() {
                     <MomentumText style={styles.totalLabel}>Total today:</MomentumText>
                     <MomentumText style={styles.totalPrice}>${discountedPrice.toFixed(2)}</MomentumText>
                 </View>
-
+                {discount && (
                 <View style={styles.savingsRow}>
                     <MomentumText style={styles.savingsIcon}>🔥</MomentumText>
                     <MomentumText style={styles.savingsText}>You just saved ${savings.toFixed(2)} (50% OFF)</MomentumText>
                 </View>
-            </View>
-
-            {/* Payment Methods */}
-            <View style={styles.paymentSection}>
-                <MomentumText style={styles.sectionTitle}>Payment Methods</MomentumText>
+                )}
                 <View style={styles.paymentMethods}>
                     <Image source={require('../../../assets/cardLogos.png')} style={styles.cardIcon} />
                 </View>
-            </View>
 
             <View style={styles.inputSection}>
                 <TextInput 
                     style={styles.input}
                     placeholder="Credit Card"
-                    placeholderTextColor="#999"
+                    placeholderTextColor={TEXT_INPUT_PLACEHOLDER_COLOR}
                     keyboardType="numeric"
                     value={cardNumber}
                     onChangeText={setCardNumber}
@@ -83,41 +68,41 @@ export default function CheckoutScreen() {
                 <View style={styles.rowInputs}>
                     <TextInput
                         style={[styles.input, styles.halfInput]}
-                        placeholder="MM/YY"
+                        placeholder={EXPIRY_DATE_INPUT_PLACEHOLDER}
                         keyboardType="numeric"
-                        placeholderTextColor="#999"
+                        placeholderTextColor={TEXT_INPUT_PLACEHOLDER_COLOR}
                         value={expiryDate}
                         onChangeText={setExpiryDate}
                     />
                     <TextInput
                         style={[styles.input, styles.halfInput]}
-                        placeholder="CVV"
-                        placeholderTextColor="#999"
+                        placeholder={CVV_INPUT_PLACEHOLDER}
+                        placeholderTextColor={TEXT_INPUT_PLACEHOLDER_COLOR}
                         secureTextEntry
                         keyboardType="numeric"
                         value={cvv}
                         onChangeText={setCvv}
                     />
                 </View>
-
                 <TextInput
                     style={styles.input}
-                    placeholder="Name on card"
-                    placeholderTextColor="#999"
+                    placeholder={CARDHOLDER_NAME_INPUT_PLACEHOLDER}
+                    placeholderTextColor={TEXT_INPUT_PLACEHOLDER_COLOR}
                     value={cardholderName}
                     onChangeText={setCardholderName}
                 />
             </View>
-
-            {/* Buy Now Button */}
-            <View style={styles.buttonContainer}>
-                <MomentumButton 
-                    onPress={handleBuyNow}
-                >
-                    <MomentumText style={{color: '#fff', fontSize: 18, textAlign: 'center'}}>Buy Now</MomentumText>
-                </MomentumButton>
+            <MomentumButton 
+                onPress={handleBuyNow}
+                color="#009F35"
+            >
+                <LockIcon width={20} height={20} style={{ marginRight: 8 }} />
+                <MomentumText style={styles.buttonText}>{PAY_NOW_BUTTON_TEXT}</MomentumText>
+            </MomentumButton>
             </View>
-        </ScrollView>
+
+
+        </View>
     )
 }
 
@@ -126,7 +111,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
         paddingVertical: 20,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: BACKGROUND_COLOR,
     },
     summaryCard: {
         backgroundColor: 'white',
@@ -167,14 +152,18 @@ const styles = StyleSheet.create({
     },
     discountPrice: {
         fontSize: 14,
-        color: '#E63946',
+        color: SAVINGS_COLOR,
         fontWeight: '500',
     },
     couponRow: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
         marginBottom: 12,
         paddingVertical: 8,
+        backgroundColor: '#EFF1F5',
+        borderRadius: 5,
+
     },
     couponIcon: {
         marginRight: 8,
@@ -219,18 +208,12 @@ const styles = StyleSheet.create({
     },
     savingsText: {
         fontSize: 12,
-        color: '#E63946',
+        color: SAVINGS_COLOR,
         fontWeight: '500',
         textAlign: 'right',
     },
     paymentSection: {
         marginBottom: 24,
-    },
-    sectionTitle: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#000',
-        marginBottom: 12,
     },
     paymentMethods: {
         flexDirection: 'row',
@@ -239,11 +222,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 8,
         paddingVertical: 12,
-        paddingHorizontal: 8,
+        // paddingHorizontal: 8,
+        marginBottom: 20,
+        width: '100%',
     },
     cardIcon: {
         width: '100%',
-        height: 30,
+        height: 40,
         resizeMode: 'contain',
     },
     inputSection: {
@@ -255,7 +240,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: '#ddd',
         borderRadius: 8,
         paddingVertical: 14,
         paddingHorizontal: 16,
@@ -275,6 +259,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 12,
+        gap: 12,
     },
     input: {
         backgroundColor: 'white',
@@ -289,9 +274,10 @@ const styles = StyleSheet.create({
     },
     halfInput: {
         flex: 1,
-        marginHorizontal: 6,
     },
-    buttonContainer: {
-        marginBottom: 40,
-    },
+    buttonText: {
+        color: BUTTON_TEXT_COLOR,
+        fontSize: 18,
+        textAlign: 'center',
+    }
 });

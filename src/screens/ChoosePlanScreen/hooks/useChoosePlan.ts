@@ -3,7 +3,12 @@ import { RootStackParamList } from "../../../../App";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { generateCouponCode } from "../../../utills";
-import { Plan } from "../../../types";
+import { Discount, Plan } from "../../../types";
+
+const discount: Discount = {
+    discountFunction: (price: number) => price * 0.5,
+    name: "50% Intro Discount",
+}
 
 export const useChoosePlan = () => {
     const [couponCode, setCouponCode] = useState<string | null>(null);
@@ -36,7 +41,7 @@ export const useChoosePlan = () => {
     }, []);
 
     const handleGetPlanPress = useCallback(() => {
-        navigation.navigate('Checkout', {plan: selectedPlan, couponCode: isDiscountAvailable ? couponCode || undefined : undefined});
+        navigation.navigate('Checkout', {plan: selectedPlan, couponCode: isDiscountAvailable ? couponCode || undefined : undefined, discount: isDiscountAvailable ? discount : undefined});
     }, [navigation, selectedPlan, isDiscountAvailable, couponCode]);
 
     return {
@@ -47,5 +52,6 @@ export const useChoosePlan = () => {
         selectedPlan,
         setSelectedPlan,
         handleGetPlanPress,
+        discount,
     }
 }
