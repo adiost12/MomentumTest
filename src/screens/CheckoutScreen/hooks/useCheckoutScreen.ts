@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { RootStackParamList } from '../../../../App';
 import { useDiscountStore } from '../../../store/discountStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { HAS_PURCHASED_KEY, PLAN_KEY, TIME_PURCHASED_KEY } from '../../../constants/storageKeys';
 
 
 type CheckoutScreenRouteProp = RouteProp<RootStackParamList, 'Checkout'>;
@@ -21,12 +22,15 @@ export const useCheckoutScreen = () => {
         const discountedPrice = discount ? discount.discountFunction(plan.price) : plan.price;
         const originalPrice = plan?.price || 0;
         const savings = originalPrice - discountedPrice;
-    
+
+
+        // we should add validation for payment details in real app
         const handleBuyNow = useCallback(() => {
-            AsyncStorage.setItem('hasPurchased', 'true');
-            
+            AsyncStorage.setItem(HAS_PURCHASED_KEY, 'true');
+            AsyncStorage.setItem(PLAN_KEY, JSON.stringify(plan));
+            AsyncStorage.setItem(TIME_PURCHASED_KEY, new Date().toISOString());
             navigation.navigate('ThankYou');
-        }, [navigation]);
+        }, [navigation, plan]);
 
         return {
             plan,

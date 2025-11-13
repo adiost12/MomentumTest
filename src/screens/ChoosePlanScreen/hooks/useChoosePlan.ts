@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { generateCouponCode } from "../../../utills";
 import { Discount, Plan } from "../../../types";
 import { useDiscountStore } from "../../../store/discountStore";
+import { IS_DISCOUNT_AVAILABLE_KEY } from "../../../constants/storageKeys";
 
 const discount: Discount = {
     discountFunction: (price: number) => price * 0.5,
@@ -31,6 +32,20 @@ export const useChoosePlan = () => {
         fetchNameAndGenerateCoupon();
     }, []);
 
+    useEffect(() => {
+        const fetchDiscountAvailability = async () => {
+            try {
+                const storedAvailability = await AsyncStorage.getItem(IS_DISCOUNT_AVAILABLE_KEY);
+                if (storedAvailability !== null) {
+                    setIsDiscountAvailable(storedAvailability === 'true');
+                }
+            } catch (error) {
+                console.error('Error retrieving discount availability from AsyncStorage:', error);
+            }
+        };
+        fetchDiscountAvailability();
+    }, []);
+
     const plans: Plan[] = [
         {id: 1, name: "4 WEEK PLAN", price: 50.00, numberOfDays: 28, isMostPopular: true },
     ]
@@ -39,6 +54,7 @@ export const useChoosePlan = () => {
     const [selectedPlan, setSelectedPlan] = useState(plans[0]);
 
     const handleTimerEnd = useCallback(() => {
+        AsyncStorage.setItem(IS_DISCOUNT_AVAILABLE_KEY, 'false');
         setIsDiscountAvailable(false);
     }, []);
 
