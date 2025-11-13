@@ -9,7 +9,7 @@ import PlanCard from "./components/PlanCard";
 import PromoCard from "./components/PromoCard";
 import { useChoosePlan } from "./hooks/useChoosePlan";
 import { Plan } from "../../types";
-import { BUTTON_TEXT_COLOR } from "../../constants/colors";
+import { BACKGROUND_COLOR, BUTTON_TEXT_COLOR } from "../../constants/colors";
 import { setNavigationOptions } from "../../utils/navigationUtils";
 
 export default function ChoosePlanScreen() {
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         height: '100%',
         marginVertical: 20,
+        backgroundColor: BACKGROUND_COLOR,
     },
     title: {
         fontSize: 26,

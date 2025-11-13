@@ -9,6 +9,7 @@ import { useMailForm } from './hooks/useMailForm';
 import MomentumText from '../../components/shared/MomentumText';
 import RightArrow from '../../../assets/icon_right.svg';
 import { setNavigationOptions } from '../../utils/navigationUtils';
+import { BACKGROUND_COLOR } from '../../constants/colors';
 
 export default function MailFormScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'space-between',
     marginVertical: 20,
+    backgroundColor: BACKGROUND_COLOR,
   },
   continueText: {
     color: '#fff',

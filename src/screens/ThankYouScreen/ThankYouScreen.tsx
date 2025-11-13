@@ -5,6 +5,7 @@ import { StyleSheet, View } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../App";
 import { setNavigationOptions } from "../../utils/navigationUtils";
+import { BACKGROUND_COLOR } from "../../constants/colors";
 
 export const ThankYouScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
          flex: 1,
          justifyContent: 'center',
          alignItems: 'center',
+         backgroundColor: BACKGROUND_COLOR,
     },
    text: {
         fontSize: 26,

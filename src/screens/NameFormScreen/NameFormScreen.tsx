@@ -9,6 +9,7 @@ import useNameForm from "./hooks/useNameForm";
 import MomentumText from "../../components/shared/MomentumText";
 import RightArrow from '../../../assets/icon_right.svg';
 import { setNavigationOptions } from "../../utils/navigationUtils";
+import { BACKGROUND_COLOR } from "../../constants/colors";
 
 export default function NameFormScreen() {
     const { name, setName, handleContinuePress, isValidName } = useNameForm();
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
         paddingBottom: 20,
+        backgroundColor: BACKGROUND_COLOR,
     },
     continueText: {
         color: '#fff',
